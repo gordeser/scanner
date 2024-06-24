@@ -20,6 +20,10 @@ public class CategoryService {
         return categoryRepository.findById(id).orElse(null);
     }
 
+    public Category findByName(String name) {
+        return categoryRepository.findByName(name).orElse(null);
+    }
+
     public Category save(Category category) {
         return categoryRepository.save(category);
     }
