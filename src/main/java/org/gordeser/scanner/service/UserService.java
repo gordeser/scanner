@@ -24,6 +24,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public Users update(Users user) {
+        return userRepository.save(user);
+    }
+
     public void deleteById(Long id) {
         Users user = findById(id);
         if (user != null) {
