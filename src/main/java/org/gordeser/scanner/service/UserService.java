@@ -1,7 +1,7 @@
 package org.gordeser.scanner.service;
 
 import lombok.RequiredArgsConstructor;
-import org.gordeser.scanner.dao.entity.User;
+import org.gordeser.scanner.dao.entity.Users;
 import org.gordeser.scanner.dao.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,20 +12,24 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
 
-    public List<User> findAll() {
+    public List<Users> findAll() {
         return userRepository.findAll();
     }
 
-    public User findById(Long id) {
+    public Users findById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
-    public User save(User user) {
+    public Users save(Users user) {
+        return userRepository.save(user);
+    }
+
+    public Users update(Users user) {
         return userRepository.save(user);
     }
 
     public void deleteById(Long id) {
-        User user = findById(id);
+        Users user = findById(id);
         if (user != null) {
             userRepository.delete(user);
         }
