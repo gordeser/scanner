@@ -8,6 +8,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -24,10 +26,24 @@ public class Category {
     private String name;
 
     @LastModifiedDate
-    @Column(name = "createdAt")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @CreatedDate
-    @Column(name = "updatedAt")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "last_updated_by")
+    private Users lastUpdatedBy;
+
+    @ManyToOne
+    @JoinColumn(name = "parent")
+    private Category parentCategory;
+
+    @OneToMany(mappedBy = "parentCategory")
+    private List<Category> childCategories;
+
+    @ManyToMany(mappedBy = "categoriesIn")
+    private List<Goods> goodsInCategory = new ArrayList<>();
 }

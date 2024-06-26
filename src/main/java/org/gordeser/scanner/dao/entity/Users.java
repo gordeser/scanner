@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,9 +28,21 @@ public class Users {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
+
+    @OneToMany(mappedBy = "createdBy")
+    private List<Goods> goodsCreated = new ArrayList<>();
+
+    @OneToMany(mappedBy = "lastUpdatedBy")
+    private List<Goods> goodsLastUpdated = new ArrayList<>();
+
+    @OneToMany(mappedBy = "createdBy")
+    private List<Goods> reviewsCreated = new ArrayList<>();
+
+    @OneToMany(mappedBy = "lastUpdatedBy")
+    private List<Category> categoriesLastUpdated = new ArrayList<>();
 }

@@ -21,4 +21,8 @@ public class Image {
 
     @Column(name = "hash")
     private String hash;
+
+    @ManyToOne
+    @JoinColumn(name = "goods_id")
+    private Goods goods;
 }

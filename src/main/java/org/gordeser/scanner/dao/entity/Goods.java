@@ -9,6 +9,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -25,11 +27,33 @@ public class Goods {
     private String name;
 
     @CreatedDate
-    @Column(name = "createdAt")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(name = "updatedAt")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "created_by")
+    private Users createdBy;
+
+    @ManyToOne
+    @JoinColumn(name = "last_updated_by")
+    private Users lastUpdatedBy;
+
+    @ManyToMany
+    @JoinTable(
+            name = "goods_category",
+            joinColumns = @JoinColumn(name = "goods_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categoriesIn = new ArrayList<>();
+
+    @OneToMany(mappedBy = "goods")
+    private List<Image> goodsImages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "goods")
+    private List<Review> goodsReviews = new ArrayList<>();
 }
 

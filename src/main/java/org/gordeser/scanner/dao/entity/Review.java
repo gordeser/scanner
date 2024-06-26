@@ -30,10 +30,18 @@ public class Review {
     private String description;
 
     @CreatedDate
-    @Column(name = "createdAt")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(name = "updatedAt")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "created_by")
+    private Users createdBy;
+
+    @ManyToOne
+    @JoinColumn(name = "goods_id")
+    private Goods goods;
 }
