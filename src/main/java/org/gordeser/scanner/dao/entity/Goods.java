@@ -1,10 +1,10 @@
 package org.gordeser.scanner.dao.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -36,11 +36,11 @@ public class Goods {
 
     @ManyToOne
     @JoinColumn(name = "created_by")
-    private Users createdBy;
+    private User createdBy;
 
     @ManyToOne
     @JoinColumn(name = "last_updated_by")
-    private Users lastUpdatedBy;
+    private User lastUpdatedBy;
 
     @ManyToMany
     @JoinTable(
@@ -48,12 +48,15 @@ public class Goods {
             joinColumns = @JoinColumn(name = "goods_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
+    @JsonIgnore
     private List<Category> categoriesIn = new ArrayList<>();
 
     @OneToMany(mappedBy = "goods")
+    @JsonIgnore
     private List<Image> goodsImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "goods")
+    @JsonIgnore
     private List<Review> goodsReviews = new ArrayList<>();
 }
 

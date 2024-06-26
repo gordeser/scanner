@@ -39,7 +39,7 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "created_by")
-    private Users createdBy;
+    private User createdBy;
 
     @ManyToOne
     @JoinColumn(name = "goods_id")

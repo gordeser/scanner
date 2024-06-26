@@ -1,5 +1,6 @@
 package org.gordeser.scanner.dao.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,15 +36,17 @@ public class Category {
 
     @ManyToOne
     @JoinColumn(name = "last_updated_by")
-    private Users lastUpdatedBy;
+    private User lastUpdatedBy;
 
     @ManyToOne
     @JoinColumn(name = "parent")
     private Category parentCategory;
 
     @OneToMany(mappedBy = "parentCategory")
+    @JsonIgnore
     private List<Category> childCategories;
 
     @ManyToMany(mappedBy = "categoriesIn")
+    @JsonIgnore
     private List<Goods> goodsInCategory = new ArrayList<>();
 }
