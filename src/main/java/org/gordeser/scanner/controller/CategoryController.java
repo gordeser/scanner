@@ -5,9 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.gordeser.scanner.dao.dto.CategoryDTO;
 import org.gordeser.scanner.dao.entity.Category;
 import org.gordeser.scanner.dao.entity.Goods;
+import org.gordeser.scanner.dao.entity.User;
 import org.gordeser.scanner.facade.CategoryFacade;
 import org.gordeser.scanner.service.CategoryService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -41,8 +44,11 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody @Valid CategoryDTO categoryDTO) {
-        Category category = categoryFacade.createCategory(categoryDTO);
+    public ResponseEntity<Category> createCategory(@RequestBody @Valid CategoryDTO categoryDTO) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+
+        Category category = categoryFacade.createCategory(categoryDTO, user);
         return ResponseEntity.ok(category);
     }
 

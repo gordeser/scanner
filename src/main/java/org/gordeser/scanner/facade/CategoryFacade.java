@@ -3,6 +3,8 @@ package org.gordeser.scanner.facade;
 import lombok.RequiredArgsConstructor;
 import org.gordeser.scanner.dao.dto.CategoryDTO;
 import org.gordeser.scanner.dao.entity.Category;
+import org.gordeser.scanner.dao.entity.Goods;
+import org.gordeser.scanner.dao.entity.User;
 import org.gordeser.scanner.service.CategoryService;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +15,20 @@ import java.time.LocalDateTime;
 public class CategoryFacade {
     private final CategoryService categoryService;
 
-    public Category createCategory(CategoryDTO categoryDTO) {
+    public Category createCategory(CategoryDTO categoryDTO, User createdBy) throws Exception {
         Category newCategory = new Category();
         newCategory.setName(categoryDTO.getName());
         newCategory.setCreatedAt(LocalDateTime.now());
         newCategory.setUpdatedAt(LocalDateTime.now());
+        newCategory.setLastUpdatedBy(createdBy);
+
+        if (categoryDTO.getParent() != null) {
+            Category parentCategory = findCategory(categoryDTO.getParent());
+            newCategory.setParentCategory(parentCategory);
+            parentCategory.getChildCategories().add(newCategory);
+            categoryService.update(parentCategory);
+        }
+
         return categoryService.save(newCategory);
     }
 
