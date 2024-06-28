@@ -39,6 +39,9 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = Boolean.FALSE;
+
     @OneToMany(mappedBy = "createdBy")
     @JsonIgnore
     private List<Goods> goodsCreated = new ArrayList<>();
@@ -58,5 +61,10 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return !this.isDeleted;
     }
 }
