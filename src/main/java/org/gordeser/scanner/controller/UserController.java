@@ -4,9 +4,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.gordeser.scanner.dao.dto.UserDTO;
 import org.gordeser.scanner.dao.dto.UserUpdateDTO;
+import org.gordeser.scanner.dao.entity.Goods;
 import org.gordeser.scanner.dao.entity.User;
 import org.gordeser.scanner.facade.UserFacade;
 import org.gordeser.scanner.response.UserUpdateResponse;
+import org.gordeser.scanner.service.GoodsService;
 import org.gordeser.scanner.service.JwtService;
 import org.gordeser.scanner.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final UserFacade userFacade;
+
+    private final GoodsService goodsService;
     private final JwtService jwtService;
 
 
@@ -33,6 +37,15 @@ public class UserController {
 
         User currentUser = (User) authentication.getPrincipal();
         return ResponseEntity.ok(currentUser);
+    }
+
+    @GetMapping("/goods")
+    public ResponseEntity<List<Goods>> getUserCreatedGoods() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        List<Goods> goods = goodsService.getAllGoodsByUsername(currentUser.getUsername());
+
+        return ResponseEntity.ok(goods);
     }
 
     @GetMapping
