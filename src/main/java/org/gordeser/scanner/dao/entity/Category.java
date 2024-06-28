@@ -10,7 +10,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -23,7 +25,9 @@ public class Category {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    // pattern:
+    // 1) cannot be only numbers
+    @Column(name = "name", unique = true)
     private String name;
 
     @CreatedDate
@@ -44,9 +48,9 @@ public class Category {
 
     @OneToMany(mappedBy = "parentCategory")
     @JsonIgnore
-    private List<Category> childCategories;
+    private Set<Category> childCategories = new HashSet<>();
 
-    @ManyToMany(mappedBy = "categoriesIn")
+    @ManyToMany(mappedBy = "categories")
     @JsonIgnore
     private List<Goods> goodsInCategory = new ArrayList<>();
 }
