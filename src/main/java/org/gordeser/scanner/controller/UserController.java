@@ -5,11 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.gordeser.scanner.dao.dto.UserDTO;
 import org.gordeser.scanner.dao.dto.UserUpdateDTO;
 import org.gordeser.scanner.dao.entity.Goods;
+import org.gordeser.scanner.dao.entity.Review;
 import org.gordeser.scanner.dao.entity.User;
 import org.gordeser.scanner.facade.UserFacade;
 import org.gordeser.scanner.response.UserUpdateResponse;
 import org.gordeser.scanner.service.GoodsService;
 import org.gordeser.scanner.service.JwtService;
+import org.gordeser.scanner.service.ReviewService;
 import org.gordeser.scanner.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -29,6 +31,7 @@ public class UserController {
 
     private final GoodsService goodsService;
     private final JwtService jwtService;
+    private final ReviewService reviewService;
 
 
     @GetMapping("/me")
@@ -46,6 +49,15 @@ public class UserController {
         List<Goods> goods = goodsService.getAllGoodsByUsername(currentUser.getUsername());
 
         return ResponseEntity.ok(goods);
+    }
+
+    @GetMapping("/reviews")
+    public ResponseEntity<List<Review>> getUserReviews() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        List<Review> reviews = reviewService.getReviewsByUsername(currentUser.getUsername());
+
+        return ResponseEntity.ok(reviews);
     }
 
     @GetMapping
