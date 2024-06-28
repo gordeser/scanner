@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class CategoryDTO {
     @NotNull(message = "required")
     private String name;
+    private String parent;
 }
