@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.gordeser.scanner.dao.dto.CategoryDTO;
 import org.gordeser.scanner.dao.entity.Category;
+import org.gordeser.scanner.dao.entity.Goods;
 import org.gordeser.scanner.facade.CategoryFacade;
 import org.gordeser.scanner.service.CategoryService;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,12 @@ public class CategoryController {
     public ResponseEntity<Category> getCategory(@PathVariable String categoryName) throws Exception {
         Category category = categoryFacade.findCategory(categoryName);
         return ResponseEntity.ok(category);
+    }
+
+    @GetMapping("/{categoryName}/goods")
+    public ResponseEntity<List<Goods>> getCategoryGoods(@PathVariable String categoryName) throws Exception {
+        List<Goods> goods = categoryFacade.getCategoryGoods(categoryName);
+        return ResponseEntity.ok(goods);
     }
 
     @PostMapping

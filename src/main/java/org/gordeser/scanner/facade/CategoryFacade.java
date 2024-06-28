@@ -45,4 +45,9 @@ public class CategoryFacade {
         }
         return category;
     }
+
+    public List<Goods> getCategoryGoods(String categoryName) throws Exception {
+        Category category = findCategory(categoryName);
+        return categoryService.getCategoryGoods(category);
+    }
 }
