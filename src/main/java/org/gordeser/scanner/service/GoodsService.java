@@ -2,6 +2,7 @@ package org.gordeser.scanner.service;
 
 import lombok.RequiredArgsConstructor;
 import org.gordeser.scanner.dao.entity.Goods;
+import org.gordeser.scanner.dao.entity.User;
 import org.gordeser.scanner.dao.repository.GoodsRepository;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,9 @@ public class GoodsService {
         if (goods != null) {
             goodsRepository.delete(goods);
         }
+    }
+
+    public List<Goods> getAllGoodsByUsername(String username) {
+        return goodsRepository.getGoodsByCreatedByUsername(username);
     }
 }
