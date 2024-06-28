@@ -26,11 +26,11 @@ public class Category {
     @Column(name = "name")
     private String name;
 
-    @LastModifiedDate
-    @Column(name = "created_at")
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @CreatedDate
+    @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
