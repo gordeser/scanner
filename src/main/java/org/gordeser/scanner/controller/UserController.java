@@ -67,9 +67,12 @@ public class UserController {
         return ResponseEntity.ok(userUpdateResponse);
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
-        userService.deleteById(userId);
+    @DeleteMapping
+    public ResponseEntity<?> deleteUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        userFacade.deleteUser(currentUser);
+        SecurityContextHolder.clearContext();
         return ResponseEntity.noContent().build();
     }
 }
