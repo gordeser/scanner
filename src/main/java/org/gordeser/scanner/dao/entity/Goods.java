@@ -49,7 +49,7 @@ public class Goods {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     @JsonIgnore
-    private List<Category> categoriesIn = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
 
     @OneToMany(mappedBy = "goods")
     @JsonIgnore
