@@ -48,12 +48,6 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody @Valid UserDTO userDTO) {
-        User newUser = userFacade.createUser(userDTO);
-        return ResponseEntity.ok(newUser);
-    }
-
     @PutMapping
     public ResponseEntity<UserUpdateResponse> updateUser(@RequestBody UserUpdateDTO userUpdateDTO) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
