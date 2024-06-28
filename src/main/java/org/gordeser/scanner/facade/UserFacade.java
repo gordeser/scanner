@@ -55,4 +55,13 @@ public class UserFacade {
 
         return userService.update(currentUser);
     }
+
+    public void deleteUser(User currentUser) {
+        currentUser.setUsername("DeletedUser");
+        currentUser.setEmail("DeletedUser");
+        currentUser.setFirstName("DeletedUser");
+        currentUser.setLastName("DeletedUser");
+        currentUser.setIsDeleted(Boolean.TRUE);
+        userService.update(currentUser);
+    }
 }
