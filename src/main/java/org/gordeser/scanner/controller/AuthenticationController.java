@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.gordeser.scanner.dao.dto.UserLoginDTO;
 import org.gordeser.scanner.dao.dto.UserRegisterDTO;
 import org.gordeser.scanner.dao.entity.User;
-import org.gordeser.scanner.response.LoginResponse;
+import org.gordeser.scanner.response.UserLoginResponse;
 import org.gordeser.scanner.service.AuthenticationService;
 import org.gordeser.scanner.service.JwtService;
 import org.springframework.http.ResponseEntity;
@@ -31,13 +31,13 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody @Valid UserLoginDTO userLoginDTO) {
+    public ResponseEntity<UserLoginResponse> authenticate(@RequestBody @Valid UserLoginDTO userLoginDTO) {
         User authenticatedUser = authenticationService.authenticate(userLoginDTO);
         String jwtToken = jwtService.generateToken(authenticatedUser);
 
-        LoginResponse loginResponse = new LoginResponse();
-        loginResponse.setToken(jwtToken);
-        loginResponse.setExpiresIn(jwtService.getExpirationTime());
-        return ResponseEntity.ok(loginResponse);
+        UserLoginResponse userLoginResponse = new UserLoginResponse();
+        userLoginResponse.setToken(jwtToken);
+        userLoginResponse.setExpiresIn(jwtService.getExpirationTime());
+        return ResponseEntity.ok(userLoginResponse);
     }
 }
