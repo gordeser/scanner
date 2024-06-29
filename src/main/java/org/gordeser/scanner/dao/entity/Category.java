@@ -10,9 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -38,6 +36,9 @@ public class Category {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted = Boolean.FALSE;
+
     @ManyToOne
     @JoinColumn(name = "last_updated_by")
     private User lastUpdatedBy;
@@ -48,7 +49,7 @@ public class Category {
 
     @OneToMany(mappedBy = "parentCategory")
     @JsonIgnore
-    private Set<Category> childCategories = new HashSet<>();
+    private List<Category> childCategories = new ArrayList<>();
 
     @ManyToMany(mappedBy = "categories")
     @JsonIgnore

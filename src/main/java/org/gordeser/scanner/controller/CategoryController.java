@@ -61,9 +61,12 @@ public class CategoryController {
         return ResponseEntity.ok(category);
     }
 
-    @DeleteMapping("/{categoryId}")
-    public ResponseEntity<?> deleteCategoryById(@PathVariable Long categoryId) {
-        categoryService.deleteById(categoryId);
+    @DeleteMapping("/{categoryName}")
+    public ResponseEntity<?> deleteCategoryById(@PathVariable String categoryName) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+
+        categoryFacade.deleteCategory(categoryName, user);
         return ResponseEntity.noContent().build();
     }
 }
