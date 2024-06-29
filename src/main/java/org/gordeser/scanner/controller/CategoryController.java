@@ -52,9 +52,12 @@ public class CategoryController {
         return ResponseEntity.ok(category);
     }
 
-    @PutMapping("/{categoryId}")
-    public ResponseEntity<Category> updateCategoryById(@PathVariable Long categoryId, @RequestBody @Valid CategoryDTO categoryDTO) throws Exception {
-        Category category = categoryFacade.updateCategoryById(categoryId, categoryDTO);
+    @PutMapping("/{categoryName}")
+    public ResponseEntity<Category> updateCategoryById(@PathVariable String categoryName, @RequestBody @Valid CategoryDTO categoryDTO) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+
+        Category category = categoryFacade.updateCategory(categoryName, categoryDTO, user);
         return ResponseEntity.ok(category);
     }
 

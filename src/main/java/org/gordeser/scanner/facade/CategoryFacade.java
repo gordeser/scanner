@@ -9,6 +9,7 @@ import org.gordeser.scanner.service.CategoryService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,13 +33,40 @@ public class CategoryFacade {
         return categoryService.save(newCategory);
     }
 
-    public Category updateCategoryById(Long categoryId, CategoryDTO categoryDTO) throws Exception {
-        Category updatedCategory = categoryService.findById(categoryId);
-        if (updatedCategory == null) {
-            throw new Exception("Category not found");
+    public Category updateCategory(String categoryName, CategoryDTO categoryDTO, User updatedBy) throws Exception {
+        if (categoryDTO.getName() == null && categoryDTO.getParent() == null) {
+            return findCategory(categoryName);
         }
-        updatedCategory.setName(categoryDTO.getName());
+
+        Category updatedCategory = findCategory(categoryName);
+
+        if (categoryDTO.getParent() != null) {
+            Category parentCategory = findCategory(categoryDTO.getParent());
+
+            if (!parentCategory.getName().equals(updatedCategory.getParentCategory().getName())) {
+                // delete child category from parent category
+                // change parent category
+                // add child category to parent category
+
+                updatedCategory.getParentCategory().getChildCategories().remove(updatedCategory);
+                categoryService.update(updatedCategory.getParentCategory());
+
+                parentCategory.getChildCategories().add(updatedCategory);
+                categoryService.update(parentCategory);
+
+                updatedCategory.setParentCategory(parentCategory);
+                categoryService.update(updatedCategory);
+            }
+        }
+
+
+        if (categoryDTO.getName() != null) {
+            updatedCategory.setName(categoryDTO.getName());
+        }
+
         updatedCategory.setUpdatedAt(LocalDateTime.now());
+        updatedCategory.setLastUpdatedBy(updatedBy);
+
         return categoryService.update(updatedCategory);
     }
 
