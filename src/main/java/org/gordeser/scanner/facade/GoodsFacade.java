@@ -58,4 +58,39 @@ public class GoodsFacade {
         return goodsService.getGoodsCategories(goods);
     }
 
+    public void deleteGoods(Long goodsId, User deletedBy) throws Exception {
+        Goods deletedGoods = goodsService.findById(goodsId);
+        if (deletedGoods == null) {
+            throw new Exception("Goods is not found");
+        }
+
+        removeGoodsFromCategories(deletedGoods, deletedGoods.getCategories(), deletedBy);
+
+        deletedGoods.setName("DeletedGoods");
+        deletedGoods.setLastUpdatedBy(deletedBy);
+        deletedGoods.setUpdatedAt(LocalDateTime.now());
+        goodsService.update(deletedGoods);
+    }
+
+    private void addGoodsToCategories(Goods goods, List<String> categoryList, User user) throws Exception {
+        for (String categoryName : categoryList) {
+            Category category = categoryFacade.findCategory(categoryName);
+            goods.getCategories().add(category);
+            category.getGoodsInCategory().add(goods);
+            category.setLastUpdatedBy(user);
+            category.setUpdatedAt(LocalDateTime.now());
+
+            categoryService.update(category);
+        }
+    }
+
+    private void removeGoodsFromCategories(Goods goods, List<Category> categoryList, User user) {
+        for (Category category : categoryList) {
+            goods.getCategories().remove(category);
+            category.getGoodsInCategory().remove(goods);
+            category.setLastUpdatedBy(user);
+            category.setUpdatedAt(LocalDateTime.now());
+            categoryService.update(category);
+        }
+    }
 }

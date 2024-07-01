@@ -61,8 +61,11 @@ public class GoodsController {
     }
 
     @DeleteMapping("/{goodsId}")
-    public ResponseEntity<?> deleteGoods(@PathVariable Long goodsId) {
-        goodsService.deleteById(goodsId);
+    public ResponseEntity<?> deleteGoods(@PathVariable Long goodsId) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+
+        goodsFacade.deleteGoods(goodsId, user);
         return ResponseEntity.noContent().build();
     }
 }
