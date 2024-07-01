@@ -4,9 +4,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.gordeser.scanner.dao.dto.ReviewDTO;
 import org.gordeser.scanner.dao.entity.Review;
+import org.gordeser.scanner.dao.entity.User;
 import org.gordeser.scanner.facade.ReviewFacade;
 import org.gordeser.scanner.service.ReviewService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +40,10 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<Review> createReview(@RequestBody @Valid ReviewDTO reviewDTO) {
-        Review review = reviewFacade.createReview(reviewDTO);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
 
+        Review review = reviewFacade.createReview(reviewDTO, user);
         return ResponseEntity.ok(review);
     }
 

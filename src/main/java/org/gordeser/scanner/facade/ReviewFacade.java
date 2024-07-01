@@ -13,13 +13,15 @@ import java.time.LocalDateTime;
 public class ReviewFacade {
     private final ReviewService reviewService;
 
-    public Review createReview(ReviewDTO reviewDTO) {
+    public Review createReview(ReviewDTO reviewDTO, User createdBy) {
         Review newReview = new Review();
+
         newReview.setRating(reviewDTO.getRating());
         newReview.setTitle(reviewDTO.getTitle());
         newReview.setDescription(reviewDTO.getDescription());
         newReview.setCreatedAt(LocalDateTime.now());
         newReview.setUpdatedAt(LocalDateTime.now());
+        newReview.setCreatedBy(createdBy);
 
         return reviewService.save(newReview);
     }
