@@ -33,4 +33,14 @@ public class GoodsFacade {
         updatedGoods.setUpdatedAt(LocalDateTime.now());
         return goodsService.save(updatedGoods);
     }
+
+    public List<Category> getGoodsCategories(Long goodsId) throws Exception {
+        Goods goods = goodsService.findById(goodsId);
+        if (goods == null) {
+            throw new Exception("Goods is not found");
+        }
+
+        return goodsService.getGoodsCategories(goods);
+    }
+
 }

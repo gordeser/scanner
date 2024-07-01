@@ -4,6 +4,7 @@ package org.gordeser.scanner.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.gordeser.scanner.dao.dto.GoodsDTO;
+import org.gordeser.scanner.dao.entity.Category;
 import org.gordeser.scanner.dao.entity.Goods;
 import org.gordeser.scanner.facade.GoodsFacade;
 import org.gordeser.scanner.service.GoodsService;
@@ -30,6 +31,12 @@ public class GoodsController {
     public ResponseEntity<Goods> getGoods(@PathVariable Long goodsId) {
         Goods goods = goodsService.findById(goodsId);
         return ResponseEntity.ok(goods);
+    }
+
+    @GetMapping("/{goodsId}/categories")
+    public ResponseEntity<List<Category>> getGoodsCategories(@PathVariable Long goodsId) throws Exception {
+        List<Category> categories = goodsFacade.getGoodsCategories(goodsId);
+        return ResponseEntity.ok(categories);
     }
 
     @PostMapping
