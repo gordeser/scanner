@@ -32,14 +32,20 @@ public class GoodsFacade {
         return goodsService.save(newGoods);
     }
 
-    public Goods updateGoodsById(Long goodsId, GoodsDTO goodsDTO) throws Exception {
+    public Goods updateGoodsById(Long goodsId, GoodsDTO goodsDTO, User updatedBy) throws Exception {
         Goods updatedGoods = goodsService.findById(goodsId);
         if (updatedGoods == null) {
-            throw new Exception("Goods not found");
+            throw new Exception("Goods is not found");
         }
 
         updatedGoods.setName(goodsDTO.getName());
         updatedGoods.setUpdatedAt(LocalDateTime.now());
+        updatedGoods.setLastUpdatedBy(updatedBy);
+
+        // TODO: make set sub operation on updating categories
+        removeGoodsFromCategories(updatedGoods, updatedGoods.getCategories(), updatedBy);
+        addGoodsToCategories(updatedGoods, goodsDTO.getCategories(), updatedBy);
+
         return goodsService.save(updatedGoods);
     }
 

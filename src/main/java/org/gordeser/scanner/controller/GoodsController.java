@@ -6,9 +6,12 @@ import lombok.RequiredArgsConstructor;
 import org.gordeser.scanner.dao.dto.GoodsDTO;
 import org.gordeser.scanner.dao.entity.Category;
 import org.gordeser.scanner.dao.entity.Goods;
+import org.gordeser.scanner.dao.entity.User;
 import org.gordeser.scanner.facade.GoodsFacade;
 import org.gordeser.scanner.service.GoodsService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +53,10 @@ public class GoodsController {
 
     @PutMapping("/{goodsId}")
     public ResponseEntity<Goods> updateGoods(@PathVariable Long goodsId, @RequestBody @Valid GoodsDTO goodsDTO) throws Exception {
-        Goods goods = goodsFacade.updateGoodsById(goodsId, goodsDTO);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+
+        Goods goods = goodsFacade.updateGoodsById(goodsId, goodsDTO, user);
         return ResponseEntity.ok(goods);
     }
 
