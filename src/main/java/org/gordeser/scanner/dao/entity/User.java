@@ -52,7 +52,7 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "createdBy")
     @JsonIgnore
-    private List<Goods> reviewsCreated = new ArrayList<>();
+    private List<Review> reviewsCreated = new ArrayList<>();
 
     @OneToMany(mappedBy = "updatedBy")
     @JsonIgnore
