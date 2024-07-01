@@ -54,6 +54,10 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Goods> reviewsCreated = new ArrayList<>();
 
+    @OneToMany(mappedBy = "updatedBy")
+    @JsonIgnore
+    private List<Review> reviewsLastUpdated = new ArrayList<>();
+
     @OneToMany(mappedBy = "lastUpdatedBy")
     @JsonIgnore
     private List<Category> categoriesLastUpdated = new ArrayList<>();

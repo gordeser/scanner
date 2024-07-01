@@ -42,6 +42,10 @@ public class Review {
     private User createdBy;
 
     @ManyToOne
+    @JoinColumn(name = "updated_by")
+    private User updatedBy;
+
+    @ManyToOne
     @JoinColumn(name = "goods_id")
     private Goods goods;
 }
