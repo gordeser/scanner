@@ -49,8 +49,10 @@ public class ReviewController {
 
     @PutMapping("/{reviewId}")
     public ResponseEntity<Review> updateReviewById(@PathVariable Long reviewId, @RequestBody @Valid ReviewDTO reviewDTO) throws Exception {
-        Review review = reviewFacade.updateReviewById(reviewId, reviewDTO);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
 
+        Review review = reviewFacade.updateReviewById(reviewId, reviewDTO, user);
         return ResponseEntity.ok(review);
     }
 
