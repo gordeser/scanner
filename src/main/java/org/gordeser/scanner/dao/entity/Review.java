@@ -21,7 +21,7 @@ public class Review {
     private Long id;
 
     @Column(name = "rating")
-    private Float rating;
+    private Double rating;
 
     @Column(name = "title")
     private String title;

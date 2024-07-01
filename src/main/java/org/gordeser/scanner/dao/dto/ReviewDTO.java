@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReviewDTO {
     @NotNull(message = "required")
-    private Float rating;
+    private Double rating;
     @NotNull(message = "required")
     private String title;
     private String description;
