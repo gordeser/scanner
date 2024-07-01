@@ -40,8 +40,11 @@ public class GoodsController {
     }
 
     @PostMapping
-    public ResponseEntity<Goods> createGoods(@RequestBody @Valid GoodsDTO goodsDTO) {
-        Goods goods = goodsFacade.createGoods(goodsDTO);
+    public ResponseEntity<Goods> createGoods(@RequestBody @Valid GoodsDTO goodsDTO) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+
+        Goods goods = goodsFacade.createGoods(goodsDTO, user);
         return ResponseEntity.ok(goods);
     }
 
