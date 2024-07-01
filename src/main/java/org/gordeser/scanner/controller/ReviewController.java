@@ -57,8 +57,11 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<?> deleteReviewById(@PathVariable Long reviewId) {
-        reviewService.deleteById(reviewId);
+    public ResponseEntity<?> deleteReviewById(@PathVariable Long reviewId) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+
+        reviewFacade.deleteReviewById(reviewId, user);
         return ResponseEntity.noContent().build();
     }
 }

@@ -41,4 +41,18 @@ public class ReviewFacade {
 
         return reviewService.update(updatedReview);
     }
+
+    public void deleteReviewById(Long id, User deletedBy) throws Exception {
+        Review deletedReview = reviewService.findById(id);
+        if (deletedReview == null) {
+            throw new Exception("Review not found");
+        }
+
+        deletedReview.setRating(-1.0);
+        deletedReview.setTitle("DeletedReview");
+        deletedReview.setUpdatedAt(LocalDateTime.now());
+        deletedReview.setUpdatedBy(deletedBy);
+        deletedReview.setDeleted(Boolean.TRUE);
+        reviewService.update(deletedReview);
+    }
 }
