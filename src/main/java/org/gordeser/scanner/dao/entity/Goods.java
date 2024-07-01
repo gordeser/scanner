@@ -42,6 +42,9 @@ public class Goods {
     @JoinColumn(name = "last_updated_by")
     private User lastUpdatedBy;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted = Boolean.FALSE;
+
     @ManyToMany
     @JoinTable(
             name = "goods_category",
