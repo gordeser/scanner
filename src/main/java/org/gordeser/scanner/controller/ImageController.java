@@ -54,4 +54,12 @@ public class ImageController {
         imageFacade.deleteImageById(imageId);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/download/{imageId}")
+    public ResponseEntity<Resource> downloadImage(@PathVariable Long imageId) throws Exception {
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(new InputStreamResource(imageFacade.getImageFile(imageId).getObjectContent()));
+    }
+
 }
