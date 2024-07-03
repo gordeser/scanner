@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.awt.image.ImageProducer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -61,6 +62,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "lastUpdatedBy")
     @JsonIgnore
     private List<Category> categoriesLastUpdated = new ArrayList<>();
+
+    @OneToMany(mappedBy = "uploadedBy")
+    private List<Image> uploadedImages;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
