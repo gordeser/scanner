@@ -31,8 +31,26 @@ public class ImageFacade {
     @Value("${aws.s3.region}")
     private String region;
 
-        newImage.setPath(imageDTO.getPath());
-        newImage.setHash(imageDTO.getHash());
+    public Image createImage(MultipartFile file, Long goodsId, User uploadedBy) throws IOException {
+        Goods goods = goodsService.findById(goodsId);
+        String hashHexUploadedFile = s3Service.uploadFile(file.getOriginalFilename(), file);
+
+        Image newImage = new Image();
+        newImage.setHash(hashHexUploadedFile);
+        newImage.setOriginalFilename(
+                String.format("%s.%s",
+                        hashHexUploadedFile,
+                        Files.getFileExtension(Objects.requireNonNull(file.getOriginalFilename())))
+                );
+        newImage.setPath(
+                String.format("https://%s.s3.%s.amazonaws.com/%s",
+                        bucketName,
+                        region,
+                        newImage.getOriginalFilename())
+        );
+        newImage.setGoods(goods);
+        newImage.setUploadDate(LocalDateTime.now());
+        newImage.setUploadedBy(uploadedBy);
         return imageService.save(newImage);
     }
 

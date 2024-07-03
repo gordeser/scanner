@@ -1,6 +1,8 @@
 package org.gordeser.scanner.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.gordeser.scanner.dao.entity.Image;
 import org.gordeser.scanner.dao.entity.User;
 import org.gordeser.scanner.facade.ImageFacade;
@@ -38,9 +40,12 @@ public class ImageController {
         return ResponseEntity.ok(images);
     }
 
-    @PutMapping("/{imageId}")
-    public ResponseEntity<Image> updateImage(@PathVariable Long imageId, @RequestBody @Valid ImageDTO imageDTO) throws Exception {
-        Image image = imageFacade.updateImageById(imageId, imageDTO);
+    @PostMapping(value = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Image> createImage(@RequestParam MultipartFile file, @RequestParam Long goodsId) throws IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+
+        Image image = imageFacade.createImage(file, goodsId, user);
         return ResponseEntity.ok(image);
     }
 
