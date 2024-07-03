@@ -62,4 +62,11 @@ public class ImageController {
                 .body(new InputStreamResource(imageFacade.getImageFile(imageId).getObjectContent()));
     }
 
+    @GetMapping("/view/{imageId}")
+    public ResponseEntity<Resource> viewImage(@PathVariable Long imageId) throws Exception {
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + imageFacade.getImageName(imageId) + "\"")
+                .body(new InputStreamResource(imageFacade.getImageFile(imageId).getObjectContent()));
+    }
 }
