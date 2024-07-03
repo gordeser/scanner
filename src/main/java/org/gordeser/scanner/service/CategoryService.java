@@ -2,7 +2,9 @@ package org.gordeser.scanner.service;
 
 import lombok.RequiredArgsConstructor;
 import org.gordeser.scanner.dao.entity.Category;
+import org.gordeser.scanner.dao.entity.Goods;
 import org.gordeser.scanner.dao.repository.CategoryRepository;
+import org.gordeser.scanner.dao.repository.GoodsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private final GoodsRepository goodsRepository;
 
     public List<Category> findAll() {
         return categoryRepository.findAll();
@@ -37,5 +40,9 @@ public class CategoryService {
         if (category != null) {
             categoryRepository.delete(category);
         }
+    }
+
+    public List<Goods> getCategoryGoods(Category category) {
+        return goodsRepository.findByCategoriesContaining(category);
     }
 }

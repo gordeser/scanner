@@ -20,16 +20,16 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     @JsonIgnore
     private String password;
 
@@ -38,6 +38,9 @@ public class User implements UserDetails {
 
     @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = Boolean.FALSE;
 
     @OneToMany(mappedBy = "createdBy")
     @JsonIgnore
@@ -49,7 +52,11 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "createdBy")
     @JsonIgnore
-    private List<Goods> reviewsCreated = new ArrayList<>();
+    private List<Review> reviewsCreated = new ArrayList<>();
+
+    @OneToMany(mappedBy = "updatedBy")
+    @JsonIgnore
+    private List<Review> reviewsLastUpdated = new ArrayList<>();
 
     @OneToMany(mappedBy = "lastUpdatedBy")
     @JsonIgnore
@@ -58,5 +65,10 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return !this.isDeleted;
     }
 }

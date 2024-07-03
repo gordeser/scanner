@@ -21,7 +21,7 @@ public class Review {
     private Long id;
 
     @Column(name = "rating")
-    private Float rating;
+    private Double rating;
 
     @Column(name = "title")
     private String title;
@@ -29,8 +29,11 @@ public class Review {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted = Boolean.FALSE;
+
     @CreatedDate
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
@@ -38,8 +41,12 @@ public class Review {
     private LocalDateTime updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "created_by")
+    @JoinColumn(name = "created_by", updatable = false)
     private User createdBy;
+
+    @ManyToOne
+    @JoinColumn(name = "updated_by")
+    private User updatedBy;
 
     @ManyToOne
     @JoinColumn(name = "goods_id")

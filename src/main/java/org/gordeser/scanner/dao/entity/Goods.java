@@ -27,7 +27,7 @@ public class Goods {
     private String name;
 
     @CreatedDate
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
@@ -35,12 +35,15 @@ public class Goods {
     private LocalDateTime updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "created_by")
+    @JoinColumn(name = "created_by", updatable = false)
     private User createdBy;
 
     @ManyToOne
     @JoinColumn(name = "last_updated_by")
     private User lastUpdatedBy;
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted = Boolean.FALSE;
 
     @ManyToMany
     @JoinTable(
@@ -49,7 +52,7 @@ public class Goods {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     @JsonIgnore
-    private List<Category> categoriesIn = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
 
     @OneToMany(mappedBy = "goods")
     @JsonIgnore

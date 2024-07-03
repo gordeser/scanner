@@ -23,16 +23,21 @@ public class Category {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    // pattern:
+    // 1) cannot be only numbers
+    @Column(name = "name", unique = true)
     private String name;
 
-    @LastModifiedDate
-    @Column(name = "created_at")
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @CreatedDate
+    @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted = Boolean.FALSE;
 
     @ManyToOne
     @JoinColumn(name = "last_updated_by")
@@ -44,9 +49,9 @@ public class Category {
 
     @OneToMany(mappedBy = "parentCategory")
     @JsonIgnore
-    private List<Category> childCategories;
+    private List<Category> childCategories = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "categoriesIn")
+    @ManyToMany(mappedBy = "categories")
     @JsonIgnore
     private List<Goods> goodsInCategory = new ArrayList<>();
 }

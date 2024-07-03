@@ -34,4 +34,8 @@ public class ReviewService {
             reviewRepository.delete(review);
         }
     }
+
+    public List<Review> getReviewsByUsername(String username) {
+        return reviewRepository.getReviewsByCreatedByUsername(username);
+    }
 }
