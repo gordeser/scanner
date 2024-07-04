@@ -5,6 +5,8 @@ import org.gordeser.scanner.dao.entity.Image;
 import org.gordeser.scanner.dao.repository.ImageRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ImageService {
@@ -18,14 +20,7 @@ public class ImageService {
         return imageRepository.save(image);
     }
 
-    public Image update(Image image) {
-        return imageRepository.save(image);
-    }
-
-    public void deleteById(Long id) {
-        Image image = getById(id);
-        if (image != null) {
-            imageRepository.delete(image);
-        }
+    public List<Image> getImagesByGoodsId(Long goodsId) {
+        return imageRepository.findImagesByGoodsId(goodsId);
     }
 }
