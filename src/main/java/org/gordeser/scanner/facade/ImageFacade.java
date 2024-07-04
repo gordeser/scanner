@@ -79,3 +79,12 @@ public class ImageFacade {
         return s3Service.getFile(image.getOriginalFilename());
     }
 
+    public String getImageName(Long imageId) throws Exception {
+        Image image = imageService.getById(imageId);
+        if (image == null) {
+            throw new Exception("Image not found");
+        }
+
+        return image.getOriginalFilename();
+    }
+}
