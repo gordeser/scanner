@@ -50,8 +50,8 @@ public class ImageController {
     }
 
     @DeleteMapping("/{imageId}")
-    public ResponseEntity<?> deleteImage(@PathVariable Long imageId) {
-        imageService.deleteById(imageId);
+    public ResponseEntity<?> deleteImage(@PathVariable Long imageId) throws Exception {
+        imageFacade.deleteImageById(imageId);
         return ResponseEntity.noContent().build();
     }
 }

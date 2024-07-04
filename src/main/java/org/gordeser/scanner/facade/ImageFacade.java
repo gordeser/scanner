@@ -58,11 +58,15 @@ public class ImageFacade {
         return imageService.getImagesByGoodsId(goodsId);
     }
 
+    public void deleteImageById(Long imageId) throws Exception {
+        Image deletedImage = imageService.getById(imageId);
+        if (deletedImage == null) {
             throw new Exception("Image not found");
         }
 
-        updatedImage.setPath(imageDTO.getPath());
-        updatedImage.setHash(imageDTO.getHash());
-        return imageService.save(updatedImage);
+        deletedImage.setDeleted(Boolean.TRUE);
+        deletedImage.setPath("DeletedImage");
+        deletedImage.setOriginalFilename("DeletedImage");
+        imageService.save(deletedImage);
     }
 }
