@@ -69,4 +69,13 @@ public class ImageFacade {
         deletedImage.setOriginalFilename("DeletedImage");
         imageService.save(deletedImage);
     }
-}
+
+    public S3Object getImageFile(Long imageId) throws Exception {
+        Image image = imageService.getById(imageId);
+        if (image == null) {
+            throw new Exception("Image not found");
+        }
+
+        return s3Service.getFile(image.getOriginalFilename());
+    }
+
