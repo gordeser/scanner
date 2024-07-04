@@ -19,9 +19,10 @@ public class ImageFacade {
         return imageService.save(newImage);
     }
 
-    public Image updateImageById(Long imageId, ImageDTO imageDTO) throws Exception {
-        Image updatedImage = imageService.getById(imageId);
-        if (updatedImage == null) {
+    public List<Image> getImagesByGoodsId(Long goodsId) {
+        return imageService.getImagesByGoodsId(goodsId);
+    }
+
             throw new Exception("Image not found");
         }
 
