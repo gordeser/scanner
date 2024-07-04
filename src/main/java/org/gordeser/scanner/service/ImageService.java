@@ -17,11 +17,4 @@ public class ImageService {
     public Image save(Image image) {
         return imageRepository.save(image);
     }
-
-    public void deleteById(Long id) {
-        Image image = getById(id);
-        if (image != null) {
-            imageRepository.delete(image);
-        }
-    }
 }
